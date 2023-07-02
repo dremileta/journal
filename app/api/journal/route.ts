@@ -14,8 +14,20 @@ export const POST = async () => {
   });
 
   const analysis = await analyze(entry.content);
-  await prisma.analysis.create({ data: { entryId: entry.id, ...analysis } });
+  await prisma.analysis.create({
+    data: {
+      userId: user.id,
+      entryId: entry.id,
 
-  await revalidatePath('/journal');
+      ...analysis,
+      mood: analysis?.mood ?? 'Neutral',
+      summary: analysis?.summary ?? 'Nothig here',
+      subject: analysis?.subject ?? 'No subject',
+      color: analysis?.color ?? '#cccccc',
+      negative: analysis?.negative ?? false,
+    },
+  });
+
+  revalidatePath('/journal');
   return NextResponse.json({ data: entry });
 };

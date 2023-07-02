@@ -7,7 +7,9 @@ const NewEntryCard = () => {
   const router = useRouter();
 
   const handleClick = async () => {
+    console.log(' SUKAKAKSK', []);
     const data = await createNewEntry();
+    console.log('DATA', [data]);
     router.push(`/journal/${data.id}`);
   };
 
